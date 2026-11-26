@@ -46,3 +46,10 @@ img,video,iframe{max-width:100%}
 .hero-content{z-index:2!important}
 .hero-bottom{z-index:2!important}
 @media(max-width:760px){.hero-photo.media-slot{width:100%!important;height:100%!important;inset:0!important}}
+
+/* Resort name lockup: exact Arabic and English brand names */
+.hero-content h1{max-width:100%;font-size:clamp(34px,5.2vw,62px);line-height:1.45;letter-spacing:0;overflow-wrap:normal}
+@media(max-width:760px){
+ .hero-content h1{font-size:clamp(30px,8.3vw,42px)!important;line-height:1.5!important;max-width:100%!important;word-break:normal!important}
+ .hero-content .eyebrow{font-size:10px;letter-spacing:2px}
+}
