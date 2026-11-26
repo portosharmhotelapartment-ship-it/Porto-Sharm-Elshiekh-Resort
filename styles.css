@@ -73,3 +73,10 @@ img,video,iframe{max-width:100%}
 .brand-image img{display:block;width:100%;height:100%;object-fit:contain;border:0}
 .footer-brand.brand-image{width:140px;height:82px;margin:0 auto 14px}
 @media(max-width:760px){.brand-image{width:88px;height:54px}.footer-brand.brand-image{width:125px;height:74px}}
+
+/* Compact Porto Sharm custom wordmark */
+.porto-wordmark{position:relative;width:112px;height:52px;display:flex;align-items:center;justify-content:flex-start;gap:0;overflow:visible;letter-spacing:0!important;color:#65136f!important;font-family:Georgia,serif!important;font-weight:900!important}
+.porto-wordmark .porto-name{font-size:20px;line-height:.78;letter-spacing:-1px;text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,0 3px 3px #17384a55}
+.porto-wordmark .porto-flower{font-family:Arial,sans-serif;font-size:27px;line-height:1;margin-left:-2px;margin-top:-23px;background:conic-gradient(#e52b8a 0 18%,#ffbd24 18% 36%,#8ac43f 36% 54%,#16a5d4 54% 72%,#7a2a9b 72% 90%,#e52b8a 90%);color:transparent;background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 1px 0 white)}
+.footer-brand.porto-wordmark{margin:0 auto 14px;justify-content:center;width:130px;height:58px;color:#fff!important}
+@media(max-width:760px){.porto-wordmark{width:92px;height:48px}.porto-wordmark .porto-name{font-size:17px}.porto-wordmark .porto-flower{font-size:22px}.footer-brand.porto-wordmark{width:120px;height:55px}}
