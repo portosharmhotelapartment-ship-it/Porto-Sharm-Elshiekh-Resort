@@ -67,3 +67,9 @@ img,video,iframe{max-width:100%}
  .facility h3{font-size:13px!important}
  .facility p{font-size:10px!important;line-height:1.55!important}
 }
+
+/* Porto Sharm supplied brand artwork */
+.brand-image{display:flex;align-items:center;justify-content:center;flex:0 0 auto;width:116px;height:62px;overflow:hidden;letter-spacing:0}
+.brand-image img{display:block;width:100%;height:100%;object-fit:contain;border:0}
+.footer-brand.brand-image{width:140px;height:82px;margin:0 auto 14px}
+@media(max-width:760px){.brand-image{width:88px;height:54px}.footer-brand.brand-image{width:125px;height:74px}}
