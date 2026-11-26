@@ -99,3 +99,12 @@ img,video,iframe{max-width:100%}
 .porto-landing .landing-secondary{display:inline-flex;align-items:center;justify-content:center;padding:13px 24px;border:1px solid #fff;border-radius:4px;color:#fff;text-decoration:none;background:#ffffff18;backdrop-filter:blur(8px);font-weight:700}
 .porto-landing .hero-bottom{z-index:3}
 @media(max-width:760px){.porto-landing{min-height:700px;padding:85px 6% 100px}.porto-landing .hero-island{width:112vw;height:200px;top:38%}.porto-landing .landing-logo{width:150px;height:100px}.porto-landing .hero-bottom{font-size:8px;letter-spacing:1px}.porto-landing .hero-sun{width:110px;height:110px}}
+
+
+/* Actual Porto Sharm island photo is the landing-page background */
+.porto-landing{background:#07384f!important;position:relative!important}
+.porto-landing .hero-art{background-image:linear-gradient(90deg,rgba(3,30,46,.72),rgba(3,30,46,.22)),url('assets/porto-sharm-hero.jpg')!important;background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important}
+.porto-landing .hero-sun,.porto-landing .hero-island,.porto-landing .hero-wave,.porto-landing .hero-cloud{display:none!important}
+.porto-landing .hero-overlay{background:linear-gradient(90deg,rgba(2,26,42,.68),rgba(2,26,42,.18))!important;z-index:-1!important}
+.porto-landing .landing-content{max-width:780px!important}
+@media(max-width:760px){.porto-landing{min-height:calc(100svh - 68px)!important;padding:65px 20px 85px!important}.porto-landing .hero-art{background-position:center center!important}.porto-landing .landing-logo{margin-bottom:10px!important}}
