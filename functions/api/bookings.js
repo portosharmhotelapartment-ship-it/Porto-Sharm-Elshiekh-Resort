@@ -25,6 +25,11 @@ export async function onRequestPost({request,env}) {
  if(!validPlan.includes(b.plan)) return Response.json({error:isHotel?"اختر نصف إقامة أو غرفة فقط للإقامة الفندقية":"نصف الإقامة متاحة للإقامة الفندقية فقط. اختر يومي أو شهري للشاليه."},{status:400});
 
  if(!/^\d{4}-\d{2}-\d{2}$/.test(b.check_in)||!/^\d{4}-\d{2}-\d{2}$/.test(b.check_out)||b.check_out<=b.check_in) return Response.json({error:"تاريخ الإقامة غير صحيح"},{status:400});
+ // Check manually maintained inventory; never decrement it when a request is submitted.
+ try {
+  const calendarRow=await db.prepare("SELECT setting_value FROM site_settings WHERE setting_key='availability_calendar'").first();
+  if(calendarRow?.setting_value){const cal=JSON.parse(calendarRow.setting_value),key=isHotel?"hotel":b.stay_type,total=Number(cal.inventory?.[key]||0);if(total>0){for(let d=new Date(b.check_in+"T00:00:00");d<new Date(b.check_out+"T00:00:00");d.setDate(d.getDate()+1)){const date=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"),blocked=Number(cal.days?.[date]?.[key]?.blocked||0);if(total-blocked<1)return Response.json({error:"لا توجد وحدات متاحة في أحد تواريخ الإقامة المحددة. اختر تواريخ أخرى أو تواصل مع الإدارة."},{status:409,headers:{"Cache-Control":"no-store"}});}}}
+ } catch { return Response.json({error:"تعذر التحقق من التوافر حاليًا"},{status:503,headers:{"Cache-Control":"no-store"}}); }
  const adults=Number(b.adults),children=Number(b.children||0);
  if(!Number.isInteger(adults)||adults<1||adults>20||!Number.isInteger(children)||children<0||children>20) return Response.json({error:"عدد النزلاء غير صحيح"},{status:400});
  const q=await db.prepare("INSERT INTO bookings(guest_name,phone,stay_type,plan,check_in,check_out,adults,children,notes,status,paid_amount) VALUES(?,?,?,?,?,?,?,?,?,'pending',0)").bind(b.guest_name.trim(),b.phone.trim(),b.stay_type.trim(),b.plan.trim(),b.check_in,b.check_out,adults,children,String(b.notes||"").trim()).run();
