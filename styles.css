@@ -67,3 +67,9 @@ img,video,iframe{max-width:100%}
  .facility h3{font-size:13px!important}
  .facility p{font-size:10px!important;line-height:1.55!important}
 }
+
+/* Use the actual transparent logo asset, sized cleanly on every screen */
+.brand-image{display:flex;align-items:center;justify-content:center;width:112px;height:58px;flex:0 0 112px;overflow:hidden;letter-spacing:0!important}
+.brand-image img{display:block;width:100%;height:100%;object-fit:contain;max-width:100%}
+.footer-brand.brand-image{width:145px;height:76px;flex-basis:145px;margin:0 auto 14px}
+@media(max-width:760px){.brand-image{width:94px;height:54px;flex-basis:94px}.footer-brand.brand-image{width:132px;height:70px;flex-basis:132px}}
