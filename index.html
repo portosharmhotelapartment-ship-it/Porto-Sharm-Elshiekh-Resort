@@ -72,16 +72,18 @@
  </div></section>
 <section class="booking-section section-wrap" id="booking"><div class="section-heading"><p class="eyebrow">BOOKING REQUEST</p><h2 data-ar="ابدأ طلب الحجز" data-en="Start your booking request">ابدأ طلب الحجز</h2><p data-ar="أرسل بياناتك، وسيراجع فريق الإدارة الطلب ويتواصل معك لتأكيد التوافر والسعر. إرسال الطلب لا يعني تأكيد الحجز." data-en="Send your details. Management will review your request and contact you to confirm availability and price. Submitting does not confirm a booking.">أرسل بياناتك، وسيراجع فريق الإدارة الطلب ويتواصل معك لتأكيد التوافر والسعر. إرسال الطلب لا يعني تأكيد الحجز.</p></div>
 <form id="booking-form"><div class="form-grid">
-<label><span data-ar="الاسم بالكامل" data-en="Full name">الاسم بالكامل</span><input name="guest_name" required maxlength="100"></label>
-<label><span data-ar="رقم الهاتف / واتساب" data-en="Phone / WhatsApp">رقم الهاتف / واتساب</span><input name="phone" required type="tel" maxlength="30"></label>
-<label><span data-ar="نوع الإقامة" data-en="Accommodation type">نوع الإقامة</span><select name="stay_type" id="stay-type"><option value="Hotel Accommodation">الإقامة الفندقية</option><option value="Premium Chalet">الشاليهات الفاخرة</option><option value="Standard Chalet">الشاليهات المميزة</option></select></label>
-<label><span data-ar="خطة الإقامة" data-en="Stay plan">خطة الإقامة</span><select name="plan"><option value="Half Board">نصف إقامة</option><option value="Room Only">غرفة فقط</option><option value="Daily">يومي</option><option value="Monthly">شهري</option></select></label>
-<label><span data-ar="تاريخ الوصول" data-en="Check-in">تاريخ الوصول</span><input type="date" name="check_in" required></label>
-<label><span data-ar="تاريخ المغادرة" data-en="Check-out">تاريخ المغادرة</span><input type="date" name="check_out" required></label>
-<label><span data-ar="عدد البالغين" data-en="Adults">عدد البالغين</span><input type="number" name="adults" min="1" max="20" value="2" required></label>
-<label><span data-ar="عدد الأطفال" data-en="Children">عدد الأطفال</span><input type="number" name="children" min="0" max="20" value="0"></label>
-</div><label><span data-ar="تفاصيل أو طلبات إضافية" data-en="Additional notes">تفاصيل أو طلبات إضافية</span><textarea name="notes" rows="3" maxlength="1000"></textarea></label>
-<button class="button-primary" type="submit" data-ar="إرسال طلب الحجز" data-en="Send booking request">إرسال طلب الحجز</button><p id="status" role="status" aria-live="polite"></p></form>
+<label><span>الاسم بالكامل</span><input name="guest_name" required maxlength="100"></label>
+<label><span>رقم التليفون / واتساب</span><input name="phone" required type="tel" maxlength="30"></label>
+<label><span>نوع الإقامة</span><select name="stay_type" id="stay-type"><option value="Hotel Accommodation">الإقامة الفندقية</option><option value="premium">الشاليهات الفاخرة</option><option value="standard">الشاليهات المميزة</option></select></label>
+<label><span>نظام الإقامة</span><select name="plan"><option value="Half Board">نصف إقامة</option><option value="Room Only">غرفة فقط</option></select></label>
+<label><span>تاريخ الدخول</span><input type="date" name="check_in" required></label>
+<label><span>تاريخ الخروج</span><input type="date" name="check_out" required></label>
+<label><span>عدد البالغين</span><input type="number" name="adults" min="1" max="3" value="2" required></label>
+<label><span>عدد الأطفال</span><input type="number" name="children" min="0" max="10" value="0" required></label>
+</div><div id="children-ages" class="form-grid"></div>
+<div id="price-summary" class="price-summary" aria-live="polite">أدخل تاريخ الوصول والمغادرة لعرض التكلفة.</div>
+<label><span>ملاحظات إضافية</span><textarea name="notes" rows="3" maxlength="850"></textarea></label>
+<button class="button-primary" type="submit">تأكيد الحجز</button><p id="status" role="status" aria-live="polite"></p></form>
 <div class="contact-strip"><div><b data-ar="تواصل معنا مباشرة" data-en="Contact us directly">تواصل معنا مباشرة</b><span>WhatsApp: <a href="https://wa.me/201061307181" target="_blank" rel="noopener">+20 106 130 7181</a></span><span><a href="mailto:Portosharmhotelapartment@gmail.com">Portosharmhotelapartment@gmail.com</a></span></div><a class="button-outline" href="https://wa.me/201061307181" target="_blank" rel="noopener" data-ar="تواصل عبر واتساب" data-en="Chat on WhatsApp">تواصل عبر واتساب</a></div>
 </section>
 </main>
