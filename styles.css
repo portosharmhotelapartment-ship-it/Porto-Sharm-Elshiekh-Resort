@@ -53,3 +53,17 @@ img,video,iframe{max-width:100%}
  .hero-content h1{font-size:clamp(30px,8.3vw,42px)!important;line-height:1.5!important;max-width:100%!important;word-break:normal!important}
  .hero-content .eyebrow{font-size:10px;letter-spacing:2px}
 }
+
+/* Compact resort facilities section */
+.facility-grid{gap:10px;margin:26px 0}
+.facility{min-height:140px;padding:17px 15px}
+.facility>span{font-size:21px}
+.facility h3{font-size:15px;margin:9px 0 4px;line-height:1.5}
+.facility p{font-size:11px;line-height:1.65}
+@media(max-width:680px){
+ .experience .section-wrap{padding-top:42px!important;padding-bottom:42px!important}
+ .facility-grid{gap:8px!important;margin:20px 0!important}
+ .facility{min-height:125px!important;padding:13px 10px!important}
+ .facility h3{font-size:13px!important}
+ .facility p{font-size:10px!important;line-height:1.55!important}
+}
