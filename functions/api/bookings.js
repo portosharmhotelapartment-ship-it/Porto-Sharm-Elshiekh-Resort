@@ -12,7 +12,7 @@ export async function onRequestPost({request,env}) {
  if(!b||typeof b!=="object"||Array.isArray(b)) return Response.json({error:"بيانات غير صالحة"},{status:400});
  for(const k of ["guest_name","phone","stay_type","plan","check_in","check_out"]) if(typeof b[k]!=="string"||!b[k].trim()) return Response.json({error:"يرجى استكمال البيانات المطلوبة"},{status:400});
  if(b.guest_name.trim().length>100||b.phone.trim().length>30||b.stay_type.length>50||b.plan.length>50||String(b.notes||"").length>1000) return Response.json({error:"بعض البيانات أطول من المسموح"},{status:400});
- if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(b.check_in)||!/^\\d{4}-\\d{2}-\\d{2}$/.test(b.check_out)||b.check_out<=b.check_in) return Response.json({error:"تاريخ الإقامة غير صحيح"},{status:400});
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(b.check_in)||!/^\d{4}-\d{2}-\d{2}$/.test(b.check_out)||b.check_out<=b.check_in) return Response.json({error:"تاريخ الإقامة غير صحيح"},{status:400});
  const adults=Number(b.adults),children=Number(b.children||0);
  if(!Number.isInteger(adults)||adults<1||adults>20||!Number.isInteger(children)||children<0||children>20) return Response.json({error:"عدد النزلاء غير صحيح"},{status:400});
  const q=await db.prepare("INSERT INTO bookings(guest_name,phone,stay_type,plan,check_in,check_out,adults,children,notes,status,paid_amount) VALUES(?,?,?,?,?,?,?,?,?,'pending',0)").bind(b.guest_name.trim(),b.phone.trim(),b.stay_type.trim(),b.plan.trim(),b.check_in,b.check_out,adults,children,String(b.notes||"").trim()).run();
