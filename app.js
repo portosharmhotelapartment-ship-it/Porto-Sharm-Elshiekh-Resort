@@ -5,24 +5,25 @@ document.getElementById('year').textContent=new Date().getFullYear();
 const menu=document.getElementById('menu-toggle');menu.addEventListener('click',()=>document.querySelector('nav').classList.toggle('open'));
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.querySelector('nav').classList.remove('open')));
 document.querySelectorAll('[data-choice]').forEach(a=>a.addEventListener('click',()=>{const select=document.getElementById('stay-type');select.value=a.dataset.choice;select.dispatchEvent(new Event('change',{bubbles:true}));}));
-document.getElementById('booking-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,status=document.getElementById('status'),data=Object.fromEntries(new FormData(form));data.adults=Number(data.adults);data.children=Number(data.children||0);if(data.check_out<=data.check_in){status.textContent=lang==='ar'?'تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول.':'Check-out must be after check-in.';return;}status.textContent=lang==='ar'?'جارٍ إرسال الطلب...':'Sending request...';try{const response=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw new Error(result.error||'Request failed');const message=lang==='ar'?[
+document.getElementById('booking-form').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget,status=document.getElementById('status'),data=Object.fromEntries(new FormData(form));data.adults=Number(data.adults);data.children=Number(data.children||0);if(data.check_out<=data.check_in){status.textContent=lang==='ar'?'تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول.':'Check-out must be after check-in.';return;}status.textContent=lang==='ar'?'جارٍ إرسال الطلب...':'Sending request...';try{const response=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw new Error(result.error||'Request failed');const stayTypeLabel=({premium:'الشاليهات المميزة',standard:'الشاليهات الفاخرة','Hotel Accommodation':'الإقامة الفندقية'})[data.stay_type]||data.stay_type;
+const message=lang==='ar'?[
 'طلب حجز جديد - منتجع بورتو شرم',
 'رقم الطلب: '+result.booking_id,
-'الاسم: '+data.guest_name,
-'الهاتف: '+data.phone,
-'نوع الإقامة: '+data.stay_type,
-'نظام الإقامة: '+data.plan,
-'الوصول: '+data.check_in,
-'المغادرة: '+data.check_out,
-'البالغون: '+data.adults,
-'الأطفال: '+data.children,
+'اسم العميل: '+data.guest_name,
+'رقم الهاتف: '+data.phone,
+'نوع الإقامة: '+stayTypeLabel,
+'خطة الإقامة: '+({Daily:'يومي',Monthly:'شهري','Half Board':'نصف إقامة','Room Only':'غرفة فقط'})[data.plan]||data.plan,
+'تاريخ الوصول: '+data.check_in,
+'تاريخ المغادرة: '+data.check_out,
+'عدد البالغين: '+data.adults,
+'عدد الأطفال: '+data.children,
 'ملاحظات: '+(data.notes||'لا يوجد')
 ].join('\\n'):[
 'New booking request - Porto Sharm Resort',
-'Reference: '+result.booking_id,
-'Name: '+data.guest_name,
+'Booking reference: '+result.booking_id,
+'Guest name: '+data.guest_name,
 'Phone: '+data.phone,
-'Stay type: '+data.stay_type,
+'Accommodation: '+stayTypeLabel,
 'Plan: '+data.plan,
 'Check-in: '+data.check_in,
 'Check-out: '+data.check_out,
