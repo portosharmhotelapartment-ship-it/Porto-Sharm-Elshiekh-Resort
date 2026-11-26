@@ -147,3 +147,8 @@ img,video,iframe{max-width:100%}
  .stay-photo{height:260px!important;min-height:260px!important;flex:0 0 260px!important}
  .gallery-grid.photo-carousel-host .photo-carousel,.gallery-grid.photo-carousel-host .photo-carousel-track,.gallery-grid.photo-carousel-host .photo-carousel-track img{height:260px!important;min-height:260px!important;max-height:260px!important}
 }
+
+
+.stay-details{margin:18px 0;padding:16px 22px 16px 18px;background:#f1f8f8;border-radius:12px;color:#536b73;line-height:2;font-size:15px}
+.stay-details li{margin:3px 0}
+.capacity-note{margin:12px 0;padding:10px 14px;border-right:3px solid #168da1;background:#eaf6f7;border-radius:8px;color:#0b5268;font-weight:700}
