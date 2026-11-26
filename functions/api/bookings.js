@@ -12,6 +12,18 @@ export async function onRequestPost({request,env}) {
  if(!b||typeof b!=="object"||Array.isArray(b)) return Response.json({error:"بيانات غير صالحة"},{status:400});
  for(const k of ["guest_name","phone","stay_type","plan","check_in","check_out"]) if(typeof b[k]!=="string"||!b[k].trim()) return Response.json({error:"يرجى استكمال البيانات المطلوبة"},{status:400});
  if(b.guest_name.trim().length>100||b.phone.trim().length>30||b.stay_type.length>50||b.plan.length>50||String(b.notes||"").length>1000) return Response.json({error:"بعض البيانات أطول من المسموح"},{status:400});
+ // Enforce accommodation-specific plans on the server as well as in the form.
+ const hotelType="Hotel Accommodation";
+ let allowedStayTypes=["premium","standard"];
+ try {
+  const configured=await db.prepare("SELECT setting_value FROM site_settings WHERE setting_key='stay_types'").first();
+  if(configured?.setting_value){const parsed=JSON.parse(configured.setting_value);if(Array.isArray(parsed))allowedStayTypes=parsed.filter(x=>x&&x.active!==false&&typeof x.slug==="string").map(x=>x.slug);}
+ } catch { return Response.json({error:"تعذر التحقق من نوع الإقامة"},{status:503,headers:{"Cache-Control":"no-store"}}); }
+ const isHotel=b.stay_type===hotelType;
+ if(!isHotel&&!allowedStayTypes.includes(b.stay_type)) return Response.json({error:"نوع الإقامة غير متاح"},{status:400});
+ const validPlan=isHotel?["Half Board","Room Only"]:["Daily","Monthly"];
+ if(!validPlan.includes(b.plan)) return Response.json({error:isHotel?"اختر نصف إقامة أو غرفة فقط للإقامة الفندقية":"نصف الإقامة متاحة للإقامة الفندقية فقط. اختر يومي أو شهري للشاليه."},{status:400});
+
  if(!/^\d{4}-\d{2}-\d{2}$/.test(b.check_in)||!/^\d{4}-\d{2}-\d{2}$/.test(b.check_out)||b.check_out<=b.check_in) return Response.json({error:"تاريخ الإقامة غير صحيح"},{status:400});
  const adults=Number(b.adults),children=Number(b.children||0);
  if(!Number.isInteger(adults)||adults<1||adults>20||!Number.isInteger(children)||children<0||children>20) return Response.json({error:"عدد النزلاء غير صحيح"},{status:400});
