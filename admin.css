@@ -9,3 +9,7 @@
 @media(max-width:600px){#stay-types-admin .setting-row{grid-template-columns:1fr}}
 
 .calendar-inventory,.calendar-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:14px 0}.calendar-form label{margin:5px 0}#cal-hotel-prices,#cal-chalet-prices{border:1px solid #d8e6eb;border-radius:9px;padding:12px;grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}#cal-hotel-prices[hidden],#cal-chalet-prices[hidden]{display:none}#calendar-days{max-height:520px;overflow:auto}#calendar h3{margin-top:20px}
+
+.calendar-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.calendar-tabs button{flex:1 1 180px}
+.calendar-tabs button.active{background:#174b66;color:#fff}
