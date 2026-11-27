@@ -165,3 +165,8 @@ img,video,iframe{max-width:100%}
 /* Today's available accommodation count */
 .today-availability{margin:8px 0 14px;color:#d01818;font-weight:800;font-size:16px;line-height:1.6}
 .today-availability[hidden]{display:none!important}
+
+
+/* Keep the full English resort name on a single line */
+.porto-landing h1{white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important;font-size:clamp(13px,3.7vw,32px)!important;letter-spacing:0!important;line-height:1.25!important;width:100%;max-width:100%!important}
+@media(min-width:761px){.porto-landing h1{font-size:clamp(22px,3.1vw,38px)!important}}
