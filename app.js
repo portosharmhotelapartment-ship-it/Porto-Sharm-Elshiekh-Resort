@@ -30,7 +30,31 @@ loadResortMedia();
 
 async function loadManagedStayTypes(){try{const [stayResponse,mediaResponse]=await Promise.all([fetch("/api/stay-types"),fetch("/api/media-gallery")]);if(!stayResponse.ok||!mediaResponse.ok)return;const {stays=[]}=await stayResponse.json();const media=(await mediaResponse.json()).groups||{};const section=document.querySelector("#stays .section-wrap");if(!section)return;section.querySelectorAll(".managed-stay-card").forEach(x=>x.remove());const oldPremium=document.getElementById("premium"),oldStandard=document.getElementById("standard");if(oldPremium)oldPremium.remove();if(oldStandard)oldStandard.remove();const bookingSelect=document.getElementById("stay-type");[...bookingSelect.options].filter(o=>o.value!=="Hotel Accommodation").forEach(o=>o.remove());const before=section.querySelector(".check-times");stays.forEach((s,i)=>{managedStayPrices[s.slug]={daily:Number(s.daily_price)||0,monthly:Number(s.monthly_price)||0};const card=document.createElement("article");card.className="stay-card managed-stay-card"+(i%2?" reverse":"");card.id="stay-"+s.slug;const imgs=media.stays?.[s.slug]||[];const details=(s.details||[]).map(x=>"<li>"+safeText(x)+"</li>").join("");const capacity=s.capacity_ar?'<p class="capacity-note">'+safeText(s.capacity_ar)+'</p>':"";card.innerHTML='<div class="stay-photo media-slot" data-slot="صور '+safeText(s.name_ar)+'"><span class="slot-icon">＋</span><b>صور '+safeText(s.name_ar)+'</b></div><div class="stay-info"><p class="eyebrow">CHALET ACCOMMODATION · '+String(i+2).padStart(2,"0")+'</p><h3>'+safeText(s.name_ar)+'</h3><p>'+safeText(s.description_ar||"")+'</p><ul class="stay-details">'+details+'</ul>'+capacity+'<div class="rates"><div><b>'+safeText(s.daily_price)+' جنيه</b><span>لليلة · للشاليه</span></div><div><b>'+safeText(s.monthly_price)+' جنيه</b><span>للشهر · للشاليه</span></div></div><a class="button-primary" href="#booking" data-choice="'+safeText(s.slug)+'">اطلب حجز '+safeText(s.name_ar)+'</a></div>';section.insertBefore(card,before);if(imgs.length){const slot=card.querySelector(".stay-photo");slot.classList.remove("media-slot");const html=imgs.map(x=>'<img src="'+x.url+'" alt="'+safeText(s.name_ar)+'" loading="lazy">').join("");slot.innerHTML='<div class="photo-carousel"><div class="photo-carousel-track">'+html+'</div><button class="photo-arrow photo-prev" type="button" aria-label="الصورة السابقة">‹</button><button class="photo-arrow photo-next" type="button" aria-label="الصورة التالية">›</button><div class="photo-counter">1 / '+imgs.length+'</div></div>';slot.querySelectorAll("img").forEach(img=>img.style.setProperty("object-fit","contain","important"));const track=slot.querySelector(".photo-carousel-track"),counter=slot.querySelector(".photo-counter");const update=()=>counter.textContent=(Math.round(track.scrollLeft/track.clientWidth)+1)+" / "+imgs.length;slot.querySelector(".photo-prev").onclick=()=>track.scrollBy({left:-track.clientWidth,behavior:"smooth"});slot.querySelector(".photo-next").onclick=()=>track.scrollBy({left:track.clientWidth,behavior:"smooth"});track.addEventListener("scroll",()=>requestAnimationFrame(update),{passive:true});}const opt=document.createElement("option");opt.value=s.slug;opt.textContent=s.name_ar;bookingSelect.appendChild(opt);});bookingSelect.dispatchEvent(new Event("change",{bubbles:true}));document.querySelectorAll('[data-choice]').forEach(a=>a.addEventListener('click',()=>{bookingSelect.value=a.dataset.choice;bookingSelect.dispatchEvent(new Event('change',{bubbles:true}));}));}catch(e){console.warn("Managed accommodation could not load",e)}}
 function safeText(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-loadManagedStayTypes();
+async function updateTodayAvailability(){
+ try{
+  const now=new Date();
+  const date=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+  const next=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+  const to=[next.getFullYear(),String(next.getMonth()+1).padStart(2,'0'),String(next.getDate()).padStart(2,'0')].join('-');
+  const response=await fetch('/api/calendar?from='+date+'&to='+to,{cache:'no-store'});
+  if(!response.ok)throw new Error('تعذر تحميل التوافر');
+  const data=await response.json();
+  const targets=[['hotel','hotel'],['premium','premium'],['standard','standard']];
+  targets.forEach(([type,id])=>{
+   const card=document.getElementById(id)||document.getElementById('stay-'+id);
+   if(!card)return;
+   let note=card.querySelector('.today-availability');
+   if(!note){note=document.createElement('p');note.className='today-availability';const heading=card.querySelector('.stay-info h3');if(heading)heading.insertAdjacentElement('afterend',note);}
+   const total=Number(data.inventory?.[type]||0);
+   if(total<=0){note.hidden=true;return;}
+   const blocked=Number(data.days?.[date]?.[type]?.blocked||0);
+   const available=Math.max(0,total-blocked);
+   note.hidden=false;
+   note.textContent=available===0?'غير متاح حاليًا من هذا النوع':available===1?'متوفر وحدة واحدة فقط من هذا النوع':'متوفر '+available+' فقط من هذا النوع';
+  });
+ }catch(error){console.warn('Today availability could not be loaded',error);}
+}
+loadManagedStayTypes().then(updateTodayAvailability);
 refreshCalendarQuote();
 
 // Keep meal plans appropriate to the selected accommodation type.
