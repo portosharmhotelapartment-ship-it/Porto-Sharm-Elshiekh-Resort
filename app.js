@@ -1,7 +1,8 @@
 let lang='ar';
 const languageButton=document.getElementById('language');
 function tr(ar,en){return lang==='ar'?ar:en;}
-function applyLanguage(){document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.querySelectorAll('[data-ar]').forEach(el=>{const value=el.dataset[lang];if(value!==undefined)el.textContent=value;});languageButton.textContent=lang==='ar'?'EN':'عربي';if(typeof updateBookingPlans==='function')updateBookingPlans();if(typeof updateMealPlanNote==='function')updateMealPlanNote();if(typeof childAgeInputs==='function')childAgeInputs();if(typeof calculatePrice==='function')calculatePrice();if(typeof loadManagedStayTypes==='function')loadManagedStayTypes().then(()=>updateTodayAvailability());}\nlanguageButton.addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';applyLanguage();});
+function applyLanguage(){document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.querySelectorAll('[data-ar]').forEach(el=>{const value=el.dataset[lang];if(value!==undefined)el.textContent=value;});languageButton.textContent=lang==='ar'?'EN':'عربي';if(typeof updateBookingPlans==='function')updateBookingPlans();if(typeof updateMealPlanNote==='function')updateMealPlanNote();if(typeof childAgeInputs==='function')childAgeInputs();if(typeof calculatePrice==='function')calculatePrice();if(typeof loadManagedStayTypes==='function')loadManagedStayTypes().then(()=>updateTodayAvailability());}
+languageButton.addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';applyLanguage();});
 document.getElementById('year').textContent=new Date().getFullYear();
 const menu=document.getElementById('menu-toggle');menu.addEventListener('click',()=>document.querySelector('nav').classList.toggle('open'));
 document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>document.querySelector('nav').classList.remove('open')));
