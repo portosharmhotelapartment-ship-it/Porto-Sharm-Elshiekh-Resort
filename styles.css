@@ -160,3 +160,8 @@ img,video,iframe{max-width:100%}
 .price-summary>div:last-of-type{border-bottom:0;font-size:18px}
 .price-summary>div:last-of-type b{color:#087c79}
 .price-summary small{display:block;margin-top:8px;color:#58717a;line-height:1.7}
+
+
+/* Today's available accommodation count */
+.today-availability{margin:8px 0 14px;color:#d01818;font-weight:800;font-size:16px;line-height:1.6}
+.today-availability[hidden]{display:none!important}
